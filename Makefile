@@ -6,7 +6,7 @@ HPATH=-I./
 all: $(TARGET)
 
 $(TARGET): main.cpp
-	$(CXX) -o $@ $^ $(CXXFLAGS)
+	$(CXX) -o $@ $^ $(HPAH) $(CXXFLAGS)
 
 .PHONY: clean
 clean:
