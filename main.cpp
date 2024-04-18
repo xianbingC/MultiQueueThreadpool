@@ -9,7 +9,7 @@ void task(unsigned i)
 
 int main()
 {
-	MultiQueueThreadPool tp;
+	MultiQueueThreadPool tp(5);
 
 	unsigned i = 0;
 	while(1) {
