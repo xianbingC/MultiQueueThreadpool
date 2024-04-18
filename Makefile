@@ -1,12 +1,13 @@
 TARGET=app
 CXX=g++
-CXXFLAGS=-g -lpthread -std=c++11
+CXXFLAGS=-g -std=c++17
 HPATH=-I./
+LIBS=-lpthread
 
 all: $(TARGET)
 
 $(TARGET): main.cpp
-	$(CXX) -o $@ $^ $(HPAH) $(CXXFLAGS)
+	$(CXX) -o $@ $^ $(HPAH) $(CXXFLAGS) $(LIBS)
 
 .PHONY: clean
 clean:
