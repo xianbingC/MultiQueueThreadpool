@@ -26,7 +26,7 @@ public:
 private:
   size_t m_size;
   size_t m_cur_qid;
-	bool   m_is_single_queue;
+  bool   m_is_single_queue;
   std::atomic<bool> m_stop;
   std::vector< std::unique_ptr<std::mutex> > m_mtxs;
   std::vector< std::unique_ptr<std::condition_variable> > m_conds;
@@ -56,9 +56,9 @@ MultiQueueThreadPool::MultiQueueThreadPool(size_t size, bool is_single_queue = M
     m_workers.emplace_back([this, i]{
       // qid equale to thread id(i)
       size_t qid = i;
-			if (m_is_single_queue) {
-				qid = 0; // fixed queue
-			}
+      if (m_is_single_queue) {
+        qid = 0; // fixed queue
+      }
       while(true) {
         std::unique_lock<std::mutex> lock(*m_mtxs[qid]);
         m_conds[qid]->wait(lock, [this, qid]{ return m_stop.load() || !m_task_queues[qid].empty(); });
@@ -91,9 +91,9 @@ template<class F, class... Args>
 void MultiQueueThreadPool::enqueue(long long task_id, F&& func, Args&&... args)
 {
   size_t qid = 0;
-	if (m_is_single_queue) {
-		qid = 0;
-	} else if (task_id < 0) {
+  if (m_is_single_queue) {
+    qid = 0;
+  } else if (task_id < 0) {
     m_qid_mtx.lock();
     qid = m_cur_qid;
     m_cur_qid = (qid + 1) % m_size;
